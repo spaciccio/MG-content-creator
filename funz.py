@@ -255,5 +255,3 @@ def ffmpeg_write_video_byme(clip, filename, fps, codec="libx264", bitrate=None,
         logfile.close()
     logging.info('Moviepy - Done !')
 
-
-
