@@ -6,16 +6,6 @@
       "use": "@vercel/python"
     }
   ],
-  "functions": {
-    "api/main.py": {
-      "runtime": "python",
-      "handler": "main.py",
-      "builds": {
-        "src": "main.py",
-        "use": "@vercel/nft"
-      }
-    }
-  },
   "routes": [
     {
       "src": "/(.*)",
