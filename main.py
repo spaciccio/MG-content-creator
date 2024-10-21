@@ -1,6 +1,3 @@
-import sys
-sys.path.insert(0, 'libs')
-
 import os
 import json
 import io
