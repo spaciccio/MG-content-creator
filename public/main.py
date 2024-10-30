@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 from PIL import Image, ImageDraw, ImageFont
 from moviepy.editor import concatenate_videoclips, ImageClip, CompositeVideoClip
 from moviepy.video.fx import all as vfx
-from funz import ffmpeg_write_video_byme
+from public.funz import ffmpeg_write_video_byme
 
 
 V = [None] * 5
