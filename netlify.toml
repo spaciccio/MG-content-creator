@@ -1,7 +1,0 @@
-[build]
-  publish = "public"  # Cambia con la tua directory di pubblicazione, se diversa
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
