@@ -298,7 +298,7 @@
             }
             dati.append('canzone', canzoneSelezionata);
             //invio dati a python
-            fetch('${apiUrl}/salva_dati', {
+            fetch('http://127.0.0.1:5500/salva_dati', {
                 method: 'POST',
                 body: dati,
             })
@@ -333,7 +333,7 @@
         
 
         function fetchPercentuale() {
-            fetch('${apiUrl}/get_percentage', { 
+            fetch('http://127.0.0.1:5500/get_percentage', { 
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
