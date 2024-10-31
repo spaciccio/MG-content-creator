@@ -9,6 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 from moviepy.editor import concatenate_videoclips, ImageClip, CompositeVideoClip
 from moviepy.video.fx import all as vfx
 from public.funz import ffmpeg_write_video_byme
+from flask_cors import CORS
 
 
 V = [None] * 5
@@ -37,6 +38,7 @@ def create_text_image(text, font_path, font_size, image_path, color):
     
 
 app = Flask(__name__)
+CORS(app)
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 
 

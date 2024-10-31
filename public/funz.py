@@ -234,7 +234,7 @@ def ffmpeg_write_video_byme(clip, filename, fps, codec="libx264", bitrate=None,
             logging.info(percentuale)
 
             
-            url = "http://127.0.0.1:5500/update_percentage"
+            url = "https://mg-content-creator.netlify.app/update_percentage"
             data = {'percentuale': percentuale, 'element_id': 'percentuale'}
             print(f"Invio richiesta HTTP a {url} con dati {data}")
             
