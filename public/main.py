@@ -3,7 +3,7 @@ import json
 import io
 import subprocess
 import numpy as np
-from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask import Flask, request, send_file, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 from PIL import Image, ImageDraw, ImageFont
 from moviepy.editor import concatenate_videoclips, ImageClip, CompositeVideoClip
@@ -217,8 +217,8 @@ def crea_video(immagini, nome_file):
     print('finish')
 
 @app.route('/')
-def home():
-    return render_template('index.html')
+def index():
+    return send_file('index.html')
 
 def convert_audio_to_aac(input_file):
     global video_path 
