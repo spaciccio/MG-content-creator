@@ -37,7 +37,7 @@ def create_text_image(text, font_path, font_size, image_path, color):
     img.save(image_path)
     
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.')
 CORS(app)
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 

@@ -157,30 +157,29 @@
                   <label for="nome-video">Inserisci nome del video</label>
                   <input type="text" id="nome-video">
               </div>
-              <div class="form-group">
-                    <label for="musica">Seleziona la musica del video!</label>
-                    <select id="musica">
-                        <option value="" disabled selected>Scegli la canzone</option>
-                        <option value="song1.mp3">Song 1</option>
-                        <option value="song2.mp3">Song 2</option>
-                        <option value="song3.mp3">Song 3</option>
-                    </select>
-                </div>
-
-                <audio id="player1" class="audio-player" controls>
-                    <source src="{{ url_for('static', filename='song1.mp3') }}" type="audio/mpeg">
-                    Il tuo browser non supporta l'elemento audio.
-                </audio>
+            <div class="form-group">
+                <label for="musica">Seleziona la musica del video!</label>
+                <select id="musica">
+                    <option value="" disabled selected>Scegli la canzone</option>
+                    <option value="static/song1.mp3">Song 1</option>
+                    <option value="static/song2.mp3">Song 2</option>
+                    <option value="static/song3.mp3">Song 3</option>
+                </select>
+            </div>
+            <audio id="player1" class="audio-player" controls>
+                <source src="static/song1.mp3" type="audio/mpeg">
+                Il tuo browser non supporta l'elemento audio.
+            </audio>
             
-                <audio id="player2" class="audio-player" controls>
-                    <source src="{{ url_for('static', filename='song2.mp3') }}" type="audio/mpeg">
-                    Il tuo browser non supporta l'elemento audio.
-                </audio>
+            <audio id="player2" class="audio-player" controls>
+                <source src="static/song2.mp3" type="audio/mpeg">
+                Il tuo browser non supporta l'elemento audio.
+            </audio>
             
-                <audio id="player3" class="audio-player" controls>
-                    <source src="{{ url_for('static', filename='song3.mp3') }}" type="audio/mpeg">
-                    Il tuo browser non supporta l'elemento audio.
-                </audio>
+            <audio id="player3" class="audio-player" controls>
+                <source src="static/song3.mp3" type="audio/mpeg">
+                Il tuo browser non supporta l'elemento audio.
+            
 
               <div class="form-group">
                   <button type="button" onclick=seleziona_immagini()>Seleziona immagini e impostare l'odine inserendo i numeri</button>
