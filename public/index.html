@@ -336,20 +336,33 @@
         
         
 
-        function fetchPercentuale() {
-            fetch('https://mg-content-creator.netlify.app/get_percentage', { 
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
+        fetch('https://mg-content-creator.netlify.app/get_percentage', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.indexOf('application/json') !== -1) {
+                return response.json();
+            } else {
+                return response.text();
+            }
+        })
+        .then(data => {
+            if (typeof data === 'string') {
+                console.error('Errore:', data);
+            } else {
                 console.log(`Risposta dal server: ${JSON.stringify(data)}`);
                 aggiornaPercentuale(data.percentuale);
-            })
-            .catch(error => console.error('Errore:', error));
-        }
+            }
+        })
+        .catch(error => console.error('Errore:', error));
+        
 
         setInterval(fetchPercentuale, 1000);
       </script>
