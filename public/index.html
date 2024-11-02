@@ -337,8 +337,7 @@
         
         function fetchPercentuale()
         {
-            fetch('/.netlify/functions/get_percentage', 
-            {
+            fetch('/get_percentage', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
