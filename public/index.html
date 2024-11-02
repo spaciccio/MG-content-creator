@@ -299,7 +299,7 @@
             dati.append('canzone', canzoneSelezionata);
             //invio dati a python
 
-            fetch('https://mg-content-creator.netlify.app/salva_dati', {
+            fetch('/.netlify/functions/salva_dati', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

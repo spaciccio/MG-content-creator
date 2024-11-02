@@ -1,6 +1,7 @@
 [build]
   publish = "public"
-  functions = "functions"
+  command = "python public/main.py"
+  functions = "functions"  # Questo indica a Netlify dove trovare le funzioni serverless
 
 [[redirects]]
   from = "/*"
