@@ -335,8 +335,10 @@
         }
         
         
-        function fetchPercentuale() {
-            fetch('https://mg-content-creator.netlify.app/get_percentage', {
+        function fetchPercentuale()
+        {
+            fetch('/.netlify/functions/get_percentage', 
+            {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -362,10 +364,13 @@
                 }
             })
             .catch(error => console.error('Errore nella richiesta:', error));
+
         }
         
-
+        
         setInterval(fetchPercentuale, 1000);
+        
+        
       </script>
   </body>
 </html>

@@ -215,11 +215,8 @@ def crea_video(immagini, nome_file):
                 logger='bar')
     convert_audio_to_aac(video_path)
     print('finish')
-
-@app.route('/')
-def index():
-    return send_file('index.html')
-
+    
+    
 def convert_audio_to_aac(input_file):
     global video_path 
     print('sono convert_audio')
@@ -234,8 +231,6 @@ def convert_audio_to_aac(input_file):
     # Invia una richiesta al client per aggiornare la pagina
     return jsonify(message="Video finito")
 
-    
-    
 @app.route('/upload', methods=['POST'])
 def upload_file():
     print('sono nella sezione immagini python')
@@ -245,18 +240,41 @@ def upload_file():
     filename = secure_filename(file.filename)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     immagini.append(filename)
-    return redirect(url_for('home'))
+    return redirect(url_for('index'))
 
-percentuale = 0
-@app.route('/update_percentage', methods=['POST'])
-def update_percentage():
-    global percentuale
-    percentuale = request.json.get('percentuale')
-    return jsonify({'percentuale': percentuale})
+global percentuale
 
 @app.route('/get_percentage', methods=['GET'])
 def get_percentage():
+    
     return jsonify({'percentuale': percentuale})
+
+@app.route('/salva_dati', methods=['POST'])
+def salva_dati():
+    
+    data = request.get_json()
+    V = data.get('dati')
+    selected_audio = data.get('canzone')
+    
+    file_immagini = request.files.getlist('immagini')
+    immagini = []
+    ordine_immagini = list(map(int, data.get('entries').split(',')))
+    for file_immagine in file_immagini:
+        immagine = Image.open(io.BytesIO(file_immagine.read()))
+        immagini.append(immagine)
+    
+    immagini_ordinate = [None] * (len(immagini) + 1)
+    for idx, ordine in enumerate(ordine_immagini):
+        if ordine < len(immagini_ordinate):
+            immagini_ordinate[ordine] = immagini[idx]
+        else:
+            print(f"Indice {ordine} fuori dal range della lista immagini_ordinate")
+    
+    immagini_ordinate = [img for img in immagini_ordinate if img is not None]
+    crea_video(immagini_ordinate, V[4])
+    
+    
+    return jsonify({'status': 'success'})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5500)
