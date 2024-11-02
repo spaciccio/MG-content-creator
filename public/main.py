@@ -44,33 +44,6 @@ app = Flask(__name__, static_folder='.')
 CORS(app)
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 
-@app.route('/salva_dati', methods=['POST'])
-def salva_dati():
-    
-    data = request.get_json()
-    V = data.get('dati')
-    selected_audio = data.get('canzone')
-    
-    file_immagini = request.files.getlist('immagini')
-    immagini = []
-    ordine_immagini = list(map(int, data.get('entries').split(',')))
-    for file_immagine in file_immagini:
-        immagine = Image.open(io.BytesIO(file_immagine.read()))
-        immagini.append(immagine)
-    
-    immagini_ordinate = [None] * (len(immagini) + 1)
-    for idx, ordine in enumerate(ordine_immagini):
-        if ordine < len(immagini_ordinate):
-            immagini_ordinate[ordine] = immagini[idx]
-        else:
-            print(f"Indice {ordine} fuori dal range della lista immagini_ordinate")
-    
-    immagini_ordinate = [img for img in immagini_ordinate if img is not None]
-    crea_video(immagini_ordinate, V[4])
-    
-    
-    return jsonify({'status': 'success'})
-
 
 def crea_video(immagini, nome_file):
     global V
@@ -212,9 +185,12 @@ def convert_audio_to_aac(input_file):
     # Invia una richiesta al client per aggiornare la pagina
     return jsonify(message="Video finito")
 
+@app.route('/')
+def index():
+    return send_file('index.html')
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    print('sono nella sezione immagini python')
     if 'file' not in request.files:
         return redirect(request.url)
     file = request.files['file']
@@ -223,13 +199,41 @@ def upload_file():
     immagini.append(filename)
     return redirect(url_for('index'))
 
-global percentuale
-
 @app.route('/get_percentage', methods=['GET'])
 def get_percentage():
-    
-    return jsonify({'percentuale': percentuale})
+    global PERCENTAGE_FILE
+    with open(PERCENTAGE_FILE, 'r') as f:
+        data = json.load(f)
+    return jsonify(data)
 
+@app.route('/salva_dati', methods=['POST'])
+def salva_dati():
+    global percentuale
+    data = request.get_json()
+    V = data.get('dati')
+    selected_audio = data.get('canzone')
+    
+    file_immagini = request.files.getlist('immagini')
+    immagini = []
+    ordine_immagini = list(map(int, data.get('entries').split(',')))
+    for file_immagine in file_immagini:
+        immagine = Image.open(io.BytesIO(file_immagine.read()))
+        immagini.append(immagine)
+    
+    immagini_ordinate = [None] * (len(immagini) + 1)
+    for idx, ordine in enumerate(ordine_immagini):
+        if ordine < len(immagini_ordinate):
+            immagini_ordinate[ordine] = immagini[idx]
+        else:
+            print(f"Indice {ordine} fuori dal range della lista immagini_ordinate")
+    
+    immagini_ordinate = [img for img in immagini_ordinate if img is not None]
+    crea_video(immagini_ordinate, V[4])
+    
+    with open(PERCENTAGE_FILE, 'w') as f:
+        json.dump({'percentuale': percentuale}, f)
+    
+    return jsonify({'status': 'success'})
 
 if __name__ == '__main__':
     app.run()
