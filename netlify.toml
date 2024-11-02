@@ -1,6 +1,6 @@
 [build]
   publish = "public"
-  command = "pip install -r public/requirements.txt && python public/main.py"
+  command = "python public/main.py"
   functions = "functions"
 
 [[redirects]]
