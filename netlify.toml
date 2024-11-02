@@ -1,9 +1,9 @@
 [build]
   publish = "public"
-  command = "python public/main.py"
+  command = "pip install -r public/requirements.txt && python public/main.py"
   functions = "functions"
 
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to: "/index.html"
   status = 200
