@@ -4,6 +4,7 @@ import io
 import sys
 import subprocess
 import numpy as np
+sys.path.append(os.path.join(os.path.expanduser("~"), "AppData/Local/Packages/PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0/LocalCache/local-packages/Python312/site-packages"))
 from flask import Flask, request, send_file, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 from PIL import Image, ImageDraw, ImageFont
@@ -43,54 +44,32 @@ app = Flask(__name__, static_folder='.')
 CORS(app)
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 
-
 @app.route('/salva_dati', methods=['POST'])
 def salva_dati():
-    global V, selected_audio
-    print('inizio salva dati')
-    os.environ['IMAGE_MAGICK_BINARY'] = r'C:\Program Files\ImageMagick-7.1.1-Q16-HDRI\magick.exe'
-    dati = json.loads(request.form.get('dati'))
     
-    V[0] = dati[0]
-    V[1] = dati[1]
-    V[2] = dati[2]
-    V[3] = dati[3]
-    V[4] = dati[4]
-    print(V)
+    data = request.get_json()
+    V = data.get('dati')
+    selected_audio = data.get('canzone')
     
-    nome_file = V[4]
     file_immagini = request.files.getlist('immagini')
-
-    selected_audio = request.form.get('canzone')
-    immagini = [] 
-
-    # Stampa l'ordine delle immagini ricevute
-    ordine_immagini = request.form.get('entries').split(',')
-    ordine_immagini = list(map(int, ordine_immagini))
-    print('Ordine delle immagini ricevute:', ordine_immagini)
-
+    immagini = []
+    ordine_immagini = list(map(int, data.get('entries').split(',')))
     for file_immagine in file_immagini:
         immagine = Image.open(io.BytesIO(file_immagine.read()))
         immagini.append(immagine)
     
     immagini_ordinate = [None] * (len(immagini) + 1)
-    
-    # Ordina le immagini in base ai numeri nel vettore ordine_immagini
     for idx, ordine in enumerate(ordine_immagini):
         if ordine < len(immagini_ordinate):
             immagini_ordinate[ordine] = immagini[idx]
         else:
             print(f"Indice {ordine} fuori dal range della lista immagini_ordinate")
-
-    # Rimuovi eventuali None dalla lista delle immagini ordinate
-    immagini_ordinate = [img for img in immagini_ordinate if img is not None]
-
-    crea_video(immagini_ordinate, nome_file)
     
-    print('finito funz')
+    immagini_ordinate = [img for img in immagini_ordinate if img is not None]
+    crea_video(immagini_ordinate, V[4])
+    
+    
     return jsonify({'status': 'success'})
-
-
 
 
 def crea_video(immagini, nome_file):
@@ -251,32 +230,6 @@ def get_percentage():
     
     return jsonify({'percentuale': percentuale})
 
-@app.route('/salva_dati', methods=['POST'])
-def salva_dati():
-    
-    data = request.get_json()
-    V = data.get('dati')
-    selected_audio = data.get('canzone')
-    
-    file_immagini = request.files.getlist('immagini')
-    immagini = []
-    ordine_immagini = list(map(int, data.get('entries').split(',')))
-    for file_immagine in file_immagini:
-        immagine = Image.open(io.BytesIO(file_immagine.read()))
-        immagini.append(immagine)
-    
-    immagini_ordinate = [None] * (len(immagini) + 1)
-    for idx, ordine in enumerate(ordine_immagini):
-        if ordine < len(immagini_ordinate):
-            immagini_ordinate[ordine] = immagini[idx]
-        else:
-            print(f"Indice {ordine} fuori dal range della lista immagini_ordinate")
-    
-    immagini_ordinate = [img for img in immagini_ordinate if img is not None]
-    crea_video(immagini_ordinate, V[4])
-    
-    
-    return jsonify({'status': 'success'})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5500)
