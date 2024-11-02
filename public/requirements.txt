@@ -4,3 +4,4 @@ numpy
 Pillow
 requests
 Werkzeug==2.0.0
+moviepy
