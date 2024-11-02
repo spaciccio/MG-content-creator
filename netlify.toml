@@ -1,6 +1,6 @@
 [build]
   publish = "public"
-  command = "python public/main.py"
+  command = "python main.py"
   functions = "functions"
 
 [[redirects]]
