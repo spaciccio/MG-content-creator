@@ -201,10 +201,13 @@ def upload_file():
 
 @app.route('/get_percentage', methods=['GET'])
 def get_percentage():
-    global PERCENTAGE_FILE
-    with open(PERCENTAGE_FILE, 'r') as f:
-        data = json.load(f)
-    return jsonify(data)
+    try:
+        global PERCENTAGE_FILE
+        with open(PERCENTAGE_FILE, 'r') as f:
+            data = json.load(f)
+        return jsonify(data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/salva_dati', methods=['POST'])
 def salva_dati():
@@ -229,9 +232,6 @@ def salva_dati():
     
     immagini_ordinate = [img for img in immagini_ordinate if img is not None]
     crea_video(immagini_ordinate, V[4])
-    
-    with open(PERCENTAGE_FILE, 'w') as f:
-        json.dump({'percentuale': percentuale}, f)
     
     return jsonify({'status': 'success'})
 
