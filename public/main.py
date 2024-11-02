@@ -1,6 +1,7 @@
 import os
 import json
 import io
+import sys
 import subprocess
 import numpy as np
 from flask import Flask, request, send_file, redirect, url_for, jsonify
@@ -8,7 +9,8 @@ from werkzeug.utils import secure_filename
 from PIL import Image, ImageDraw, ImageFont
 from moviepy.editor import concatenate_videoclips, ImageClip, CompositeVideoClip
 from moviepy.video.fx import all as vfx
-from public.funz import ffmpeg_write_video_byme
+sys.path.append(os.path.join(os.path.dirname(__file__), 'public'))
+from funz import ffmpeg_write_video_byme
 from flask_cors import CORS
 
 
