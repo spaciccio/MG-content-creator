@@ -1,6 +1,6 @@
 [build]
   publish = "public"
-  command = "pip install -r requirements.txt && gunicorn --workers=3 --timeout 120 --chdir public main:app"
+  command = "pip install -r requirements.txt"
   functions = "functions"
 
 [[redirects]]
