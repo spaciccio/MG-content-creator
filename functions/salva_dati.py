@@ -3,7 +3,7 @@ import os
 import io
 from PIL import Image
 from flask import jsonify
-from public.main import crea_video  # Assicurati di importare la tua funzione crea_video dal modulo corretto
+from main import crea_video  # Assicurati di importare la tua funzione crea_video dal modulo corretto
 
 def handler(event, context):
     body = json.loads(event['body'])
