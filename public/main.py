@@ -454,7 +454,8 @@ def upload_file():
 @app.route('/get_percentage', methods=['GET'])
 def get_percentage():
     global percentuale
-    return f"<h1 id='percentuale'>Percentuale di caricamento: {percentuale}%</h1>"
+    return f"{percentuale}%"
+
 
 @app.route('/salva_dati', methods=['POST'])
 def salva_dati():

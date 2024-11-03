@@ -350,12 +350,14 @@
             })
             .then(data => {
                 console.log(`Risposta dal server: ${data}`);
-                document.getElementById('percentuale').outerHTML = data;  // Aggiorna il contenuto HTML del tag percentuale
+                document.getElementById('percentuale').innerHTML = data;  // Aggiorna solo il contenuto del tag percentuale
+                document.getElementById('percentuale').style.display = 'block';  // Assicura che il tag sia visibile
             })
             .catch(error => console.error('Errore nella richiesta:', error));
         }
         
         setInterval(fetchPercentuale, 1000);
+        
         
         
         
