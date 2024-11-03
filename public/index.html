@@ -339,23 +339,25 @@
             fetch('/get_percentage', {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'text/html'  // Cambia il content-type a text/html
+                    'Content-Type': 'text/plain'  // Cambia il content-type a text/plain
                 }
             })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.text();  // Restituisce direttamente il testo HTML
+                return response.text();  // Restituisce direttamente il testo
             })
             .then(data => {
                 console.log(`Risposta dal server: ${data}`);
-                document.getElementById('percentuale').innerHTML = data;  // Aggiorna solo il contenuto del tag percentuale
+                document.getElementById('percentuale').innerText = `Percentuale di caricamento: ${data}%`;  // Aggiorna solo il testo del tag percentuale
+                document.getElementById('percentuale').style.display = 'block';  // Assicura che il tag sia visibile
             })
             .catch(error => console.error('Errore nella richiesta:', error));
         }
         
         setInterval(fetchPercentuale, 1000);
+        
         
         
         
