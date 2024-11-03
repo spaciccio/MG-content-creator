@@ -298,7 +298,6 @@
             }
             dati.append('canzone', canzoneSelezionata);
             //invio dati a python
-
             fetch('/salva_dati', {
                 method: 'POST',
                 headers: {
@@ -351,7 +350,6 @@
             .then(data => {
                 console.log(`Risposta dal server: ${data}`);
                 document.getElementById('percentuale').innerText = `Percentuale di caricamento: ${data}%`;  // Aggiorna solo il testo del tag percentuale
-                document.getElementById('percentuale').style.display = 'block';  // Assicura che il tag sia visibile
             })
             .catch(error => console.error('Errore nella richiesta:', error));
         }

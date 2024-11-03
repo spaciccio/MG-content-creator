@@ -18,6 +18,8 @@ from flask_cors import CORS
 V = [None] * 5
 immagini = []
 progress = None
+global percentuale
+percentuale = 0
 
 
 
@@ -226,7 +228,7 @@ def update_label(label, logfile):
         
 
 
-global percentuale
+
 def ffmpeg_write_video_byme(clip, filename, fps, codec="libx264", bitrate=None,
                             preset="medium", withmask=False, write_logfile=False,
                             audiofile=None, verbose=True, threads=None, ffmpeg_params=None,
@@ -249,6 +251,7 @@ def ffmpeg_write_video_byme(clip, filename, fps, codec="libx264", bitrate=None,
 
         nframes = int(clip.duration * fps)
         frame_count = 0
+        global percentuale
         percentuale = 0
         for t, frame in clip.iter_frames(logger=logger, with_times=True,
                                          fps=fps, dtype="uint8"):
@@ -460,7 +463,7 @@ def get_percentage():
 
 @app.route('/salva_dati', methods=['POST'])
 def salva_dati():
-    global percentuale
+    
     data = request.get_json()
     V = data.get('dati')
     selected_audio = data.get('canzone')
