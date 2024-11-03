@@ -453,8 +453,8 @@ def upload_file():
 
 @app.route('/get_percentage', methods=['GET'])
 def get_percentage():
-    
-    return jsonify(percentuale)
+    global percentuale
+    return f"<h1 id='percentuale'>Percentuale di caricamento: {percentuale}%</h1>"
 
 @app.route('/salva_dati', methods=['POST'])
 def salva_dati():

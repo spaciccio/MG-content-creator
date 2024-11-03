@@ -335,39 +335,28 @@
         }
         
         
-        function fetchPercentuale()
-        {
+        function fetchPercentuale() {
             fetch('/get_percentage', {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'text/html'  // Cambia il content-type a text/html
                 }
-            })//jijji
+            })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.indexOf('application/json') !== -1) {
-                    return response.json();
-                } else {
-                    return response.text();
-                }
+                return response.text();  // Restituisce direttamente il testo HTML
             })
             .then(data => {
-                if (typeof data === 'string') {
-                    console.error('Errore: Il server ha restituito HTML anziché JSON. Dettagli:', data);
-                } else {
-                    console.log(`Risposta dal server: ${JSON.stringify(data)}`);
-                    aggiornaPercentuale(data.percentuale);
-                }
+                console.log(`Risposta dal server: ${data}`);
+                document.getElementById('percentuale').outerHTML = data;  // Aggiorna il contenuto HTML del tag percentuale
             })
             .catch(error => console.error('Errore nella richiesta:', error));
-
         }
         
-        
         setInterval(fetchPercentuale, 1000);
+        
         
         
       </script>
