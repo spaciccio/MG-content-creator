@@ -298,12 +298,16 @@
             }
             dati.append('canzone', canzoneSelezionata);
             //invio dati a python
-            fetch('/salva_dati', {
+            fetch('https://mg-content-creator.netlify.app/salva_dati', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(dati)
+                body: JSON.stringify({
+                    dati: ["500", "46"],
+                    entries: "4,5,prova",
+                    canzone: "song1.mp3"
+                })
             })
             .then(response => {
                 if (!response.ok) {
@@ -311,13 +315,11 @@
                 }
                 return response.json();
             })
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            .then(data => console.log(data))
+            .catch(error => console.error('Errore:', error));
+            
         }
+            
         
 
         function aggiornaPercentuale(percentuale) {
