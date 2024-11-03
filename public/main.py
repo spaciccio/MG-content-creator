@@ -454,6 +454,7 @@ def upload_file():
 @app.route('/get_percentage', methods=['GET'])
 def get_percentage():
     global percentuale
+    print(f"Percentuale calcolata: {percentuale}")
     return f"{percentuale}%"
 
 

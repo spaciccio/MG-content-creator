@@ -299,7 +299,7 @@
             dati.append('canzone', canzoneSelezionata);
             //invio dati a python
 
-            fetch('/.netlify/functions/salva_dati', {
+            fetch('/salva_dati', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -351,7 +351,6 @@
             .then(data => {
                 console.log(`Risposta dal server: ${data}`);
                 document.getElementById('percentuale').innerHTML = data;  // Aggiorna solo il contenuto del tag percentuale
-                document.getElementById('percentuale').style.display = 'block';  // Assicura che il tag sia visibile
             })
             .catch(error => console.error('Errore nella richiesta:', error));
         }
