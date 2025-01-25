@@ -6,6 +6,7 @@ colorama==0.4.6
 decorator==4.4.2
 Flask==3.0.3
 Flask-Cors==5.0.0
+gunicorn==23.0.0
 idna==3.10
 imageio==2.36.0
 imageio-ffmpeg==0.5.1
@@ -14,6 +15,7 @@ Jinja2==3.1.4
 MarkupSafe==3.0.2
 moviepy==1.0.3
 numpy==2.1.2
+packaging==24.2
 pillow==11.0.0
 proglog==0.1.10
 requests==2.32.3
