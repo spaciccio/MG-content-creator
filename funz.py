@@ -203,43 +203,35 @@ def update_label(label, logfile):
 
 
 
-def ffmpeg_write_video_byme(clip, filename, fps, codec="libx264", bitrate=None,
-                            preset="medium", withmask=False, write_logfile=False,
-                            audiofile=None, verbose=True, threads=None, ffmpeg_params=None,
-                            logger='bar'):
-    """ Write the clip to a videofile. See VideoClip.write_videofile for details
-    on the parameters.
-    """
+  # Su Heroku
+
+def ffmpeg_write_video_byme(clip, filename, fps, codec="libx264", bitrate=None, preset="medium", withmask=False, write_logfile=False, audiofile=None, verbose=True, threads=None, ffmpeg_params=None, logger="bar"):
+    # Usa variabile d'ambiente per determinare l'ambiente (locale o Heroku)
+    if os.getenv('FLASK_ENV') == 'development':
+        updateUrl = "http://127.0.0.1:5500/update_percentage"  # In locale
+    else:
+        updateUrl = "https://your-heroku-app.herokuapp.com/update_percentage"
     logging.info(proglog.default_bar_logger(logger))
 
     if write_logfile:
         logfile = open(filename + ".log", 'w+')
     else:
         logfile = None
+
     logging.info('Moviepy - Writing video %s\n' % filename)
 
-    with FFMPEG_VideoWriter(filename, clip.size, fps, codec=codec,
-                            preset=preset, bitrate=bitrate, logfile=logfile,
-                            audiofile=audiofile, threads=threads,
-                            ffmpeg_params=ffmpeg_params) as writer:
-
+    with FFMPEG_VideoWriter(filename, clip.size, fps, codec=codec, preset=preset, bitrate=bitrate, logfile=logfile, audiofile=audiofile, threads=threads, ffmpeg_params=ffmpeg_params) as writer:
         nframes = int(clip.duration * fps)
         frame_count = 0
 
-        for t, frame in clip.iter_frames(logger=logger, with_times=True,
-                                         fps=fps, dtype="uint8"):
-
+        for t, frame in clip.iter_frames(logger=logger, with_times=True, fps=fps, dtype="uint8"):
             frame_count += 1
             percentuale = round((frame_count / nframes) * 100)
             logging.info(percentuale)
 
-            
-            url = "http://127.0.0.1:5500/update_percentage"
-            data = {'percentuale': percentuale, 'element_id': 'percentuale'}
-            print(f"Invio richiesta HTTP a {url} con dati {data}")
-            
+            # Utilizzo dell'URL di aggiornamento
             try:
-                response = requests.post(url, json=data)
+                response = requests.post(updateUrl, json={'percentuale': percentuale, 'element_id': 'percentuale'})
                 response.raise_for_status()  # Solleva un'eccezione per errori HTTP
                 print(f"Risposta dal server: {response.json()}")
             except requests.exceptions.RequestException as e:
@@ -254,5 +246,4 @@ def ffmpeg_write_video_byme(clip, filename, fps, codec="libx264", bitrate=None,
 
     if write_logfile:
         logfile.close()
-    logging.info('Moviepy - Done !')
-
+    logging.info('Moviepy - Done!')

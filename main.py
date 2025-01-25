@@ -57,7 +57,7 @@ def salva_dati():
     nome_file = V[4]
     file_immagini = request.files.getlist('immagini')
 
-    selected_audio = request.form.get('canzone')
+    selected_audio = request.form.get('canzone')  # Ottieni la canzone dal form
     immagini = [] 
 
     # Stampa l'ordine delle immagini ricevute
@@ -85,6 +85,7 @@ def salva_dati():
     
     print('finito funz')
     return jsonify({'status': 'success'})
+
 
 
 

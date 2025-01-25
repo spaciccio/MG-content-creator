@@ -196,12 +196,14 @@
           </form>
       </div>
       <script>
-
         let immagini = [];
         let labels = [];
         let entries = [];
         let immaginiSelezionate = [];
-
+        
+        // Determina l'URL di base (puoi usare `window.location.origin` per ottenere l'hostname)
+        const baseUrl = window.location.origin;  // Questo si adatterà automaticamente a Heroku o localhost
+        
         document.getElementById('musica').addEventListener('change', function() {
             var selectedSong = this.value;
             var players = document.querySelectorAll('.audio-player');
@@ -210,7 +212,7 @@
                 player.style.display = 'none';
                 player.pause();
             });
-
+        
             if (selectedSong === 'song1.mp3') {
                 document.getElementById('player1').style.display = 'block';
                 document.getElementById('player1').play();
@@ -223,10 +225,9 @@
             }
         });
         
-
         function seleziona_immagini() {
             document.getElementById('titolo-immagini').style.display = 'block';
-
+        
             let input = document.createElement('input');
             input.type = 'file';
             input.accept = 'image/png, image/jpeg';
@@ -267,7 +268,6 @@
         }
         
         function salva_dati(event) {
-
             event.preventDefault();
             for (let entry of entries) {
                 if (!entry.input.value || isNaN(entry.input.value)) {
@@ -278,8 +278,6 @@
             console.log('sono funz js salva dati');
             document.getElementById('percentuale').style.display = 'block';
             const canzoneSelezionata = document.getElementById('musica').value;
-        
-
         
             // Stampa l'ordine delle immagini prima dell'invio
             console.log('Ordine delle immagini:', entries.map(e => e.input.value));
@@ -297,8 +295,9 @@
                 dati.append('immagini', immaginiSelezionate[i]);
             }
             dati.append('canzone', canzoneSelezionata);
-            //invio dati a python
-            fetch('http://127.0.0.1:5500/salva_dati', {
+        
+            // Invia i dati al server utilizzando l'URL dinamico
+            fetch(`${baseUrl}/salva_dati`, {
                 method: 'POST',
                 body: dati,
             })
@@ -316,24 +315,19 @@
             });
         }
         
-
         function aggiornaPercentuale(percentuale) {
             console.log(`Aggiornamento percentuale: ${percentuale}%`);
             const percentualeElement = document.getElementById('percentuale');
             
             if (percentuale === 100) {
                 percentualeElement.innerText = "Aspetta ancora pochi secondi, quando sul tuo desktop il video avrà la copertina lo potrai aprire ";
-                
-                
             } else {
                 percentualeElement.innerText = `Percentuale di caricamento: ${percentuale}%`;
             }
         }
         
-        
-
         function fetchPercentuale() {
-            fetch('http://127.0.0.1:5500/get_percentage', { 
+            fetch(`${baseUrl}/get_percentage`, { 
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -346,7 +340,7 @@
             })
             .catch(error => console.error('Errore:', error));
         }
-
+        
         setInterval(fetchPercentuale, 1000);
       </script>
   </body>
