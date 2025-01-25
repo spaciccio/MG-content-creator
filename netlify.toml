@@ -1,8 +1,0 @@
-[build]
-  publish = "public"
-  command = "pip install -r requirements.txt"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
